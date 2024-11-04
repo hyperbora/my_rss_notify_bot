@@ -6,8 +6,8 @@ load_dotenv(override=True)
 
 
 def main():
-    BOT_TOKN = os.getenv("BOT_TOKEN")
-    application = ApplicationBuilder().token(BOT_TOKN).build()
+    BOT_TOKEN = os.getenv("BOT_TOKEN")
+    application = ApplicationBuilder().token(BOT_TOKEN).build()
 
     application.run_polling()
 

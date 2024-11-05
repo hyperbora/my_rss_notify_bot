@@ -1,0 +1,36 @@
+{
+  "en": {
+    "welcome_message": "Welcome to the RSS Bot! Use /help to see available commands.",
+    "help_message": "Here are the available commands:\n/add_rss - Add a new RSS feed\n/remove_rss - Remove an existing RSS feed\n/show_rss - Show your added RSS feeds\n/stop - Stop the bot",
+    "rss_added": "RSS feed added successfully!",
+    "rss_removed": "RSS feed removed successfully!",
+    "no_rss_feeds": "You have no RSS feeds added.",
+    "waiting_for_rss": "Please send me the RSS feed URL.",
+    "waiting_for_remove_rss": "Please select the RSS feed you want to remove.",
+    "start": "Start",
+    "help": "Help",
+    "add_rss": "Add RSS",
+    "remove_rss": "Remove RSS",
+    "show_rss": "Show RSS",
+    "stop": "Stop",
+    "add_rss_message_key": "Please send me the RSS feed URL.",
+    "stop_message": "Bot stopped."
+  },
+  "ko": {
+    "welcome_message": "RSS 봇에 오신 것을 환영합니다! /help를 사용하여 사용 가능한 명령어를 확인하세요.",
+    "help_message": "사용 가능한 명령어 목록입니다:\n/add_rss - 새로운 RSS 피드 추가\n/remove_rss - 기존 RSS 피드 삭제\n/show_rss - 추가된 RSS 피드 보기\n/stop - 봇 종료",
+    "rss_added": "RSS 피드가 성공적으로 추가되었습니다!",
+    "rss_removed": "RSS 피드가 성공적으로 삭제되었습니다!",
+    "no_rss_feeds": "추가된 RSS 피드가 없습니다.",
+    "waiting_for_rss": "RSS 피드 URL을 보내주세요.",
+    "waiting_for_remove_rss": "삭제할 RSS 피드를 선택하세요.",
+    "start": "시작",
+    "help": "도움말",
+    "add_rss": "RSS 추가",
+    "remove_rss": "RSS 삭제",
+    "show_rss": "RSS 보기",
+    "stop": "종료",
+    "add_rss_message_key": "RSS 피드 URL을 보내주세요.",
+    "stop_message": "봇이 중지되었습니다."
+  }
+}

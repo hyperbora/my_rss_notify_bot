@@ -1,6 +1,7 @@
 import json
 import os
 from constants import DEFAULT_LANGUAGE, JSON_FILE_NAME
+from enums import MessageEnum
 
 
 def load_translations():
@@ -25,7 +26,7 @@ def load_translations():
 _translations = load_translations()
 
 
-def get_translation(key, language=DEFAULT_LANGUAGE):
+def get_translation(key: MessageEnum, language=DEFAULT_LANGUAGE):
     """
     Retrieve a translation for a specific key and language.
 
@@ -34,7 +35,7 @@ def get_translation(key, language=DEFAULT_LANGUAGE):
     If the key is still not found, the key itself is returned as a fallback.
 
     Args:
-        key (str): The key for the desired translation.
+        key (MessageEnum): The key for the desired translation.
         language (str): The language code (default is the default language).
 
     Returns:

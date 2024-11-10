@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from enums.message_enum import MessageEnum
+from enums import MessageEnum
 
 
 load_dotenv(override=True)

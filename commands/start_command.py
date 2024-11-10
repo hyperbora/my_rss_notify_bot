@@ -1,5 +1,6 @@
 from telegram import Update
 from telegram.ext import CommandHandler, CallbackContext
+from enums import CommandEnum
 
 
 async def start(update: Update, context: CallbackContext):
@@ -8,4 +9,4 @@ async def start(update: Update, context: CallbackContext):
     )
 
 
-start_command_handler = CommandHandler("start", start)
+start_command_handler = CommandHandler(CommandEnum.START, start)

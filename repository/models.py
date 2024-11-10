@@ -21,4 +21,6 @@ class RSSFeed(Base):
     user = relationship("User", back_populates="rss_feeds")
 
 
-User.rss_feeds = relationship("RSSFeed", order_by=RSSFeed.id, back_populates="user")
+User.rss_feeds = relationship(
+    "RSSFeed", order_by=RSSFeed.id, back_populates="user", cascade="all, delete"
+)

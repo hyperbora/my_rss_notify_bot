@@ -1,8 +1,11 @@
+import os
 from contextlib import contextmanager
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from constants import DATABASE_URL
+from sqlalchemy.orm import declarative_base, sessionmaker
+from constants import DATABASE_URL, DATABASE_TEST_URL
+
+if os.getenv("ENVIRONMENT") == "TEST":
+    DATABASE_URL = DATABASE_TEST_URL
 
 # SQLAlchemy 설정
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})

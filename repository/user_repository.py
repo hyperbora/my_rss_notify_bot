@@ -1,5 +1,5 @@
 from typing import Optional
-from repository.db import get_db
+from repository import get_db
 from repository.models import User
 
 

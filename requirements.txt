@@ -4,3 +4,4 @@ python-dotenv
 cryptography
 nest_asyncio
 pytest
+pytest-env

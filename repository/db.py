@@ -4,11 +4,12 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from constants import DATABASE_URL, DATABASE_TEST_URL
 
-if os.getenv("ENVIRONMENT") == "TEST":
-    DATABASE_URL = DATABASE_TEST_URL
+URL = DATABASE_URL
+if os.environ.get("ENVIRONMENT") == "TEST":
+    URL = DATABASE_TEST_URL
 
 # SQLAlchemy 설정
-engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+engine = create_engine(URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # 모델을 위한 기본 클래스

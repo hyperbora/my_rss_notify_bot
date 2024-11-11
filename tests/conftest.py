@@ -1,9 +1,8 @@
-import os
 import pytest
+from repository import init_db
 
 
-# pytest 실행 전 테스트 환경 변수 설정
+# pytest 실행 전 세팅
 @pytest.fixture(scope="session", autouse=True)
-def set_environment():
-    # TEST 환경으로 설정
-    os.environ["ENVIRONMENT"] = "TEST"
+def init():
+    init_db()

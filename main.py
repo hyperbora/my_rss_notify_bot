@@ -11,7 +11,7 @@ async def main():
     try:
         init_db()
     except Exception as e:
-        print("데이터 베이스 초기화 실패")
+        print("데이터 베이스 초기화 실패", e)
         sys.exit(1)
 
     application = ApplicationBuilder().token(BOT_TOKEN).build()

@@ -23,3 +23,4 @@ class MessageEnum(str, Enum):
     SUCCESS_RSS_ADDED = "success_rss_added"
     ERROR_RSS_ADD_FAILED = "error_rss_add_failed"
     CANCEL_RSS_ADD = "cancel_rss_add"
+    RSS_ALREADY_EXISTS = "rss_already_exists"

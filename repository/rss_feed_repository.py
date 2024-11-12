@@ -1,6 +1,6 @@
 from typing import Optional, List
 from repository import get_db
-from repository.models import RSSFeed
+from repository.models import RSSFeed, User
 
 
 def save_rss_feed(rss_feed: RSSFeed) -> RSSFeed:
@@ -41,3 +41,12 @@ def get_rss_feeds_by_user_id(user_id: int) -> List[RSSFeed]:
     """
     with get_db() as db:
         return db.query(RSSFeed).filter(RSSFeed.user_id == user_id).all()
+
+
+def get_rss_by_url(rss_url: str, user: User) -> Optional[RSSFeed]:
+    with get_db() as db:
+        return (
+            db.query(RSSFeed)
+            .filter(RSSFeed.url == rss_url, RSSFeed.user_id == user.id)
+            .first()
+        )

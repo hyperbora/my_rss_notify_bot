@@ -12,6 +12,14 @@ class User(Base):
     chat_id = Column(String, unique=True)
     language = Column(String, default=DEFAULT_LANGUAGE)
 
+    def __str__(self):
+        # 사람이 읽기 쉬운 형태로 출력
+        return f"User(id={self.id}, chat_id={self.chat_id}, language={self.language})"
+
+    def __repr__(self):
+        # 디버깅용, 개발자에게 더 많은 정보를 제공
+        return f"User(id={self.id}, chat_id={self.chat_id}, language={self.language})"
+
 
 class RSSFeed(Base):
     __tablename__ = "rss_feeds"

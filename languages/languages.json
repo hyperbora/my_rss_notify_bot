@@ -1,7 +1,7 @@
 {
   "en": {
     "welcome_message": "Welcome to the RSS Bot! Use /help to see available commands.",
-    "help_message": "Here are the available commands:\n/add_rss - Add a new RSS feed\n/remove_rss - Remove an existing RSS feed\n/show_rss - Show your added RSS feeds\n/stop - Stop the bot",
+    "help_message": "You can receive notifications when new posts are added to the registered RSS feed.",
     "rss_added": "RSS feed added successfully!",
     "rss_removed": "RSS feed removed successfully!",
     "no_rss_feeds": "You have no RSS feeds added.",
@@ -14,11 +14,15 @@
     "show_rss": "Show RSS",
     "stop": "Stop",
     "add_rss_message_key": "Please send me the RSS feed URL.",
-    "stop_message": "Bot stopped."
+    "stop_message": "Bot stopped.",
+    "prompt_enter_rss_url": "Please enter the URL of the RSS feed you want to add:",
+    "success_rss_added": "The RSS feed has been added successfully.",
+    "error_rss_add_failed": "Failed to add the RSS feed. Please try again.",
+    "cancel_rss_add": "RSS feed addition has been canceled."
   },
   "ko": {
     "welcome_message": "RSS 봇에 오신 것을 환영합니다! /help를 사용하여 사용 가능한 명령어를 확인하세요.",
-    "help_message": "사용 가능한 명령어 목록입니다:\n/add_rss - 새로운 RSS 피드 추가\n/remove_rss - 기존 RSS 피드 삭제\n/show_rss - 추가된 RSS 피드 보기\n/stop - 봇 종료",
+    "help_message": "RSS 피드를 등록하면 새글이 올라왔을 때 알림을 받을 수 있습니다.",
     "rss_added": "RSS 피드가 성공적으로 추가되었습니다!",
     "rss_removed": "RSS 피드가 성공적으로 삭제되었습니다!",
     "no_rss_feeds": "추가된 RSS 피드가 없습니다.",
@@ -31,6 +35,10 @@
     "show_rss": "RSS 보기",
     "stop": "종료",
     "add_rss_message_key": "RSS 피드 URL을 보내주세요.",
-    "stop_message": "봇이 중지되었습니다."
+    "stop_message": "봇이 중지되었습니다.",
+    "prompt_enter_rss_url": "추가할 RSS 피드의 URL을 입력해 주세요:",
+    "success_rss_added": "RSS 피드가 추가되었습니다.",
+    "error_rss_add_failed": "RSS 피드 추가에 실패했습니다. 다시 시도해 주세요.",
+    "cancel_rss_add": "RSS 피드 추가가 취소되었습니다."
   }
 }

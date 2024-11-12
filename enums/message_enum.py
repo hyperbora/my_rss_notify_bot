@@ -19,3 +19,7 @@ class MessageEnum(str, Enum):
     STOP = "stop"
     ADD_RSS_MESSAGE_KEY = "add_rss_message_key"
     STOP_MESSAGE = "stop_message"
+    PROMPT_ENTER_RSS_URL = "prompt_enter_rss_url"
+    SUCCESS_RSS_ADDED = "success_rss_added"
+    ERROR_RSS_ADD_FAILED = "error_rss_add_failed"
+    CANCEL_RSS_ADD = "cancel_rss_add"

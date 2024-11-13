@@ -19,7 +19,8 @@
     "success_rss_added": "The RSS feed has been added successfully.",
     "error_rss_add_failed": "Failed to add the RSS feed. Please try again.",
     "cancel_rss_add": "RSS feed addition has been canceled.",
-    "rss_already_exists": "The RSS feed is already registered."
+    "rss_already_exists": "The RSS feed is already registered.",
+    "rss_max_limit": "You can only register up to {MAX_RSS_FEEDS} RSS feeds."
   },
   "ko": {
     "welcome_message": "RSS 봇에 오신 것을 환영합니다!",
@@ -41,6 +42,7 @@
     "success_rss_added": "RSS 피드가 추가되었습니다.",
     "error_rss_add_failed": "RSS 피드 추가에 실패했습니다. 다시 시도해 주세요.",
     "cancel_rss_add": "RSS 피드 추가가 취소되었습니다.",
-    "rss_already_exists": "이미 등록된 RSS 피드입니다."
+    "rss_already_exists": "이미 등록된 RSS 피드입니다.",
+    "rss_max_limit": "최대 {MAX_RSS_FEEDS}개의 RSS 피드만 등록할 수 있습니다."
   }
 }

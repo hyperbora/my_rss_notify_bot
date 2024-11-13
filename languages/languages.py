@@ -6,13 +6,7 @@ from enums import MessageEnum
 
 def load_translations():
     """
-    Load translations from a JSON file.
-
-    Reads the translation data from a JSON file located in the current directory.
-    If the file is not found or contains invalid JSON, an empty dictionary is returned.
-
-    Returns:
-        dict: A dictionary containing translations for each language.
+    JSON 파일에서 번역 데이터 읽기
     """
     cur_dir = os.path.dirname(os.path.realpath(__file__))
     try:
@@ -26,34 +20,18 @@ def load_translations():
 _translations = load_translations()
 
 
-def get_translation(key: MessageEnum, language=DEFAULT_LANGUAGE):
+def get_translation(key: MessageEnum, language=DEFAULT_LANGUAGE, **kwargs):
     """
-    Retrieve a translation for a specific key and language.
-
-    Fetches the translation for the given key in the specified language.
-    If the key is not found in the specified language, it falls back to the default language.
-    If the key is still not found, the key itself is returned as a fallback.
-
-    Args:
-        key (MessageEnum): The key for the desired translation.
-        language (str): The language code (default is the default language).
-
-    Returns:
-        str: The translated text, or the key itself if no translation is found.
+    키값, 언어, 파라미터 있어서 지정하면 번역 문장 리턴
     """
     translation = _translations.get(language, {})
-    return translation.get(key, _translations[DEFAULT_LANGUAGE].get(key, key))
+    message = translation.get(key, _translations[DEFAULT_LANGUAGE].get(key, key))
+    return message.format(**kwargs) if kwargs else message
 
 
 def reload_translations():
     """
-    Reload the translation data from the JSON file.
-
-    Re-reads the JSON file to refresh translation data. This function is useful
-    when the JSON file is updated and needs to reflect changes in the application.
-
-    Side Effects:
-        Updates the `_translations` global variable with the latest translations.
+    번역 데이터 재적용
     """
     global _translations
     _translations = load_translations()

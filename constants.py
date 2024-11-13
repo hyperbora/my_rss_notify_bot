@@ -11,3 +11,4 @@ DEFAULT_LANGUAGE = MessageEnum.KO
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASE_TEST_URL = "sqlite:///:memory:"
+MAX_RSS_FEEDS = int(os.getenv("MAX_RSS_FEEDS", "5"))

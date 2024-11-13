@@ -10,6 +10,7 @@ from repository import rss_feed_repository, RSSFeed, User
 from enums import UserStateEnum, CommandEnum, MessageEnum
 from decorators import ensure_user_exists
 from languages import get_translation
+from constants import MAX_RSS_FEEDS
 
 WAITING_FOR_URL = UserStateEnum.WAITING_FOR_URL
 
@@ -30,6 +31,18 @@ async def add_rss_url(update: Update, context: CallbackContext, user: User):
 
     if existing_feed:
         await update.message.reply_text(get_translation(MessageEnum.RSS_ALREADY_EXISTS))
+        return ConversationHandler.END
+
+    # 등록된 피드 개수 확인
+    user_feed_count = rss_feed_repository.get_rss_feeds_by_user_id(
+        user_id=user.id
+    ).count()
+    if user_feed_count >= MAX_RSS_FEEDS:
+        await update.message.reply_text(
+            get_translation(
+                MessageEnum.RSS_MAX_LIMIT, user.language, MAX_RSS_FEEDS=MAX_RSS_FEEDS
+            )
+        )
         return ConversationHandler.END
 
     # RSSFeed 객체 생성 후 저장

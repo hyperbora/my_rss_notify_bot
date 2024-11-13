@@ -1,6 +1,7 @@
 from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from urllib.request import urlopen
+import feedparser
 
 
 def _fetch_url(url, timeout=5):
@@ -34,6 +35,22 @@ def is_valid_rss(url: str) -> bool:
     return True
 
 
+def get_new_rss_posts(url: str):
+    """
+    새로운 RSS 글을 가져오는 함수
+    """
+    try:
+        content, _ = _fetch_url(url, timeout=10)
+        feed = feedparser.parse(content)
+        if feed.entries:
+            return feed.entries  # 새로운 RSS 글들 반환
+        return []
+    except Exception as e:
+        print(e)
+        return []
+
+
 if __name__ == "__main__":
-    result = is_valid_rss("https://rss.nytimes.com/services/xml/rss/nyt/World.xml")
-    print(result)
+    url = "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+    print(is_valid_rss(url))
+    print(get_new_rss_posts(url))

@@ -4,3 +4,5 @@ python-dotenv
 nest_asyncio
 pytest
 pytest-env
+apscheduler
+feedparser

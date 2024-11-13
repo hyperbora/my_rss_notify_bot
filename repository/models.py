@@ -32,3 +32,22 @@ class RSSFeed(Base):
 User.rss_feeds = relationship(
     "RSSFeed", order_by=RSSFeed.id, back_populates="user", cascade="all, delete"
 )
+
+
+class RSSFeedHistory(Base):
+    __tablename__ = "rss_feed_history"
+    id = Column(Integer, primary_key=True)
+    rss_feed_id = Column(Integer, ForeignKey("rss_feeds.id"))
+    title = Column(String, nullable=False)
+    link = Column(String, nullable=False)
+    published_at = Column(String, nullable=False)
+
+    rss_feed = relationship("RSSFeed", back_populates="history")
+
+
+RSSFeed.history = relationship(
+    "RSSFeedHistory",
+    order_by=RSSFeedHistory.id,
+    back_populates="rss_feed",
+    cascade="all, delete",
+)

@@ -5,6 +5,7 @@ import nest_asyncio
 from constants import BOT_TOKEN
 from commands import get_command_handlers, set_bot_commands
 from repository import init_db
+from utils import start_rss_scheduler
 
 
 async def main():
@@ -27,5 +28,6 @@ async def main():
 
 if __name__ == "__main__":
     print("bot start")
+    start_rss_scheduler()
     nest_asyncio.apply()
     asyncio.run(main())

@@ -34,9 +34,7 @@ async def add_rss_url(update: Update, context: CallbackContext, user: User):
         return ConversationHandler.END
 
     # 등록된 피드 개수 확인
-    user_feed_count = rss_feed_repository.get_rss_feeds_by_user_id(
-        user_id=user.id
-    ).count()
+    user_feed_count = len(rss_feed_repository.get_rss_feeds_by_user_id(user_id=user.id))
     if user_feed_count >= MAX_RSS_FEEDS:
         await update.message.reply_text(
             get_translation(

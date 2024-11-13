@@ -1,6 +1,4 @@
-# db/models.py
-
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from .db import Base
 from constants import DEFAULT_LANGUAGE
@@ -13,11 +11,9 @@ class User(Base):
     language = Column(String, default=DEFAULT_LANGUAGE)
 
     def __str__(self):
-        # 사람이 읽기 쉬운 형태로 출력
         return f"User(id={self.id}, chat_id={self.chat_id}, language={self.language})"
 
     def __repr__(self):
-        # 디버깅용, 개발자에게 더 많은 정보를 제공
         return f"User(id={self.id}, chat_id={self.chat_id}, language={self.language})"
 
 
@@ -28,6 +24,9 @@ class RSSFeed(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="rss_feeds")
 
+    def __repr__(self):
+        return f"RSSFeed(id={self.id}, url={self.url}, user_id={self.user_id})"
+
 
 User.rss_feeds = relationship(
     "RSSFeed", order_by=RSSFeed.id, back_populates="user", cascade="all, delete"
@@ -35,17 +34,21 @@ User.rss_feeds = relationship(
 
 
 class RSSFeedHistory(Base):
-    __tablename__ = "rss_feed_history"
+    __tablename__ = "rss_feed_histories"
     id = Column(Integer, primary_key=True)
     rss_feed_id = Column(Integer, ForeignKey("rss_feeds.id"))
+    entry_id = Column(String, nullable=False)  # RSS 항목의 고유 ID 저장
     title = Column(String, nullable=False)
     link = Column(String, nullable=False)
-    published_at = Column(String, nullable=False)
+    published_at = Column(DateTime, nullable=False)  # 날짜 형식으로 변경
 
-    rss_feed = relationship("RSSFeed", back_populates="history")
+    rss_feed = relationship("RSSFeed", back_populates="rss_feed_histories")
+
+    def __repr__(self):
+        return f"RSSFeedHistory(id={self.id}, rss_feed_id={self.rss_feed_id}, entry_id={self.entry_id})"
 
 
-RSSFeed.history = relationship(
+RSSFeed.rss_feed_histories = relationship(
     "RSSFeedHistory",
     order_by=RSSFeedHistory.id,
     back_populates="rss_feed",

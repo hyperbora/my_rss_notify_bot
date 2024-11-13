@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Generator
 from repository import get_db
 from repository.models import User
 
@@ -32,3 +32,13 @@ def delete_user(chat_id: str) -> bool:
     except Exception as e:
         db.rollback()
         raise e
+
+
+def get_all_users() -> Generator[User, None, None]:
+    """
+    데이터베이스에서 모든 유저를 하나씩 반환하는 제너레이터 함수.
+    """
+    with get_db() as db:
+        query = db.query(User)
+        for user in query.yield_per(10):  # 배치 크기 10으로 설정
+            yield user

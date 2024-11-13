@@ -44,9 +44,20 @@ def get_rss_feeds_by_user_id(user_id: int) -> List[RSSFeed]:
 
 
 def get_rss_by_url(rss_url: str, user: User) -> Optional[RSSFeed]:
+    """
+    특정 사용자 ID와 연결된 특정 RSS 피드를 반환합니다.
+    """
     with get_db() as db:
         return (
             db.query(RSSFeed)
             .filter(RSSFeed.url == rss_url, RSSFeed.user_id == user.id)
             .first()
         )
+
+
+def get_rss_feed_count_by_user_id(user_id: int) -> int:
+    """
+    특정 사용자가 등록한 RSS 피드의 개수를 반환합니다.
+    """
+    with get_db() as db:
+        return db.query(RSSFeed).filter(RSSFeed.user_id == user_id).count()

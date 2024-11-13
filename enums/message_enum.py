@@ -25,3 +25,4 @@ class MessageEnum(str, Enum):
     CANCEL_RSS_ADD = "cancel_rss_add"
     RSS_ALREADY_EXISTS = "rss_already_exists"
     RSS_MAX_LIMIT = "rss_max_limit"
+    INVALID_RSS_URL = "invalid_rss_url"

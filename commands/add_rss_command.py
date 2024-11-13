@@ -11,6 +11,7 @@ from enums import UserStateEnum, CommandEnum, MessageEnum
 from decorators import ensure_user_exists
 from languages import get_translation
 from constants import MAX_RSS_FEEDS
+from utils import is_valid_rss
 
 WAITING_FOR_URL = UserStateEnum.WAITING_FOR_URL
 
@@ -35,6 +36,10 @@ async def start_add_rss(update: Update, context: CallbackContext, user: User):
 async def add_rss_url(update: Update, context: CallbackContext, user: User):
     # URL 입력값 받아오기
     rss_url = update.message.text.strip()
+
+    if not is_valid_rss(url=rss_url):
+        await update.message.reply_text(get_translation(MessageEnum.INVALID_RSS_URL))
+        return ConversationHandler.END
 
     # 이미 해당 사용자가 등록한 RSS 피드인지 확인
     existing_feed = rss_feed_repository.get_rss_by_url(rss_url, user)  # user 객체 전달

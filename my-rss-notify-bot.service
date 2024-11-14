@@ -1,0 +1,16 @@
+[Unit]
+Description=My rss notify bot Daemon
+After=multi-user.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+Environment="PATH=/your/python3/bin:/your/path/bin"
+Environment="PYTHONPATH=/your/pythonpath"
+ExecStart=/your/python3/bin/python3 /your/python/source/path/my_rss_notify_bot/main.py
+ExecStop=/bin/kill -HUP $MAINPID
+Type=simple
+
+[Install]
+Alias=my-rss-notify-bot.service
+WantedBy=multi-user.target

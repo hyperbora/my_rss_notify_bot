@@ -1,7 +1,8 @@
+import os
 import logging
 import sys
 from logging.handlers import RotatingFileHandler
-from constants import LOG_FILE_PATH, MAX_LOG_SIZE, BACKUP_COUNT, LOG_LEVEL
+from constants import LOG_FILE_NAME, MAX_LOG_SIZE, BACKUP_COUNT, LOG_LEVEL
 
 
 class StreamToLogger(object):
@@ -33,9 +34,15 @@ formatter = logging.Formatter(
     "[%(asctime)s] [%(levelname)s] %(filename)s: %(message)s", "%Y-%m-%d %H:%M:%S"
 )
 
+base_dir = os.path.abspath(
+    os.path.join(os.path.abspath(__file__), os.pardir, os.pardir)
+)
+
 # 파일 핸들러 설정 (회전 파일 핸들러)
 file_handler = RotatingFileHandler(
-    LOG_FILE_PATH, maxBytes=MAX_LOG_SIZE, backupCount=BACKUP_COUNT
+    os.path.join(base_dir, LOG_FILE_NAME),
+    maxBytes=MAX_LOG_SIZE,
+    backupCount=BACKUP_COUNT,
 )
 file_handler.setFormatter(formatter)
 file_handler.setLevel(level)

@@ -6,13 +6,14 @@ from constants import BOT_TOKEN
 from commands import get_command_handlers, set_bot_commands
 from repository import init_db
 from utils import start_rss_scheduler
+from utils import logger
 
 
 async def main():
     try:
         init_db()
     except Exception as e:
-        print("데이터 베이스 초기화 실패", e)
+        logger.error("데이터 베이스 초기화 실패", exc_info=True)
         sys.exit(1)
 
     application = ApplicationBuilder().token(BOT_TOKEN).build()
@@ -27,7 +28,7 @@ async def main():
 
 
 if __name__ == "__main__":
-    print("bot start")
+    logger.info("bot start")
     start_rss_scheduler()
     nest_asyncio.apply()
     asyncio.run(main())

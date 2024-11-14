@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from urllib.request import urlopen
 import feedparser
+from utils import logger
 
 
 def _fetch_url(url, timeout=5):
@@ -29,7 +30,7 @@ def is_valid_rss(url: str) -> bool:
         if root.tag not in {"rss", "feed"}:  # rss 2.0이나 Atom 피드 여부 확인
             return False
     except Exception as e:
-        print(e)
+        logger.error("invalid rss %s", url, exc_info=True)
         return False
 
     return True
@@ -46,7 +47,7 @@ def get_new_rss_posts(url: str):
             return feed.entries  # 새로운 RSS 글들 반환
         return []
     except Exception as e:
-        print(e)
+        logger.error("new rss posts error(%s)", url, exc_info=True)
         return []
 
 

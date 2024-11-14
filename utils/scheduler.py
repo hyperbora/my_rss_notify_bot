@@ -10,6 +10,7 @@ from repository.models import RSSFeedHistory
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
 from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS, BOT_TOKEN
 from languages import get_translation
+from utils import logger
 from enums import MessageEnum
 
 
@@ -24,7 +25,7 @@ def parse_published_at(date_str):
             return datetime.strptime(date_str, date_format)
         except ValueError:
             continue
-    print(f"unknown pattern : {date_str}")
+    logger.debug("unknown pattern : %s", date_str)
     return datetime.now()
 
 
@@ -107,7 +108,7 @@ async def send_notification_to_user(chat_id: str, message: str):
         # 메시지 전송
         await bot.send_message(chat_id=chat_id, text=message)
     except TelegramError as e:
-        print(f"메시지 전송 중 오류 발생: {e}")
+        logger.error("메시지 전송 중 오류 발생", exc_info=True)
 
 
 def start_rss_scheduler():

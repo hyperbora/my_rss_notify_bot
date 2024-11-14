@@ -9,7 +9,16 @@ load_dotenv()
 JSON_FILE_NAME = "languages.json"
 DEFAULT_LANGUAGE = MessageEnum.KO
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-DATABASE_URL = os.getenv("DATABASE_URL")
+
+# 현재 파일의 디렉토리 경로
+base_dir = os.path.dirname(__file__)
+
+# 데이터베이스 파일 경로
+db_file_name = os.getenv("DATABASE_FILE_NAME", "rss.sqlite")
+db_path = os.path.abspath(os.path.join(base_dir, db_file_name))
+
+DATABASE_URL = f"sqlite:///{db_path}"
+
 DATABASE_TEST_URL = "sqlite:///:memory:"
 MAX_RSS_FEEDS = int(os.getenv("MAX_RSS_FEEDS", "5"))
 RSS_CHECK_INTERVAL = int(os.getenv("RSS_CHECK_INTERVAL", "600"))

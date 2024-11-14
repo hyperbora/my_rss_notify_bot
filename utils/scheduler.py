@@ -5,9 +5,11 @@ from apscheduler.triggers.interval import IntervalTrigger
 import feedparser
 from repository.models import RSSFeedHistory
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
-from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS
+from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS, BOT_TOKEN
 from languages import get_translation
 from enums import MessageEnum
+from telegram import Bot
+from telegram.error import TelegramError
 
 
 def parse_published_at(date_str):
@@ -86,8 +88,17 @@ def create_rss_update_message(new_entries_summary, language):
 
 
 def send_notification_to_user(chat_id: str, message: str):
-    # Telegram bot 메시지 전송
-    print(f"send notification to {chat_id} : {message}")
+    """
+    텔레그램 사용자에게 메시지를 보내는 함수.
+    chat_id: 사용자의 고유 텔레그램 ID
+    message: 보낼 메시지
+    """
+    bot = Bot(token=BOT_TOKEN)
+    try:
+        # 메시지 전송
+        bot.send_message(chat_id=chat_id, text=message)
+    except TelegramError as e:
+        print(f"메시지 전송 중 오류 발생: {e}")
 
 
 def start_rss_scheduler():

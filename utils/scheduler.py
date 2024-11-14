@@ -4,7 +4,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 import feedparser
 from repository.models import RSSFeedHistory
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
-from constants import RSS_CHECK_INTERVAL
+from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS
 
 
 def parse_published_at(date_str):
@@ -16,17 +16,8 @@ def parse_published_at(date_str):
     raise ValueError("Unsupported date format")
 
 
-# def delete_old_rss_history():
-#     """
-#     30일 이상 된 RSS 피드 기록을 삭제합니다.
-#     """
-#     cutoff_date = datetime.now() - timedelta(days=30)
-#     with get_db() as db:
-#         # 30일 이상 된 기록을 삭제
-#         db.execute(
-#             delete(RSSFeedHistory).where(RSSFeedHistory.published_at < cutoff_date)
-#         )
-#         db.commit()
+def delete_old_rss_history():
+    rss_feed_history_repository.delete_old_rss_history(days=OLD_RSS_HISTORY_DAYS)
 
 
 def check_rss_feeds():
@@ -71,9 +62,18 @@ def send_notification_to_user(chat_id: str, message: str):
 
 def start_rss_scheduler():
     """
-    스케줄러를 시작하여 주기적으로 RSS를 확인합니다.
+    스케줄러를 시작하여 주기적으로 오래된 history 삭제 및 신규 rss를 확인합니다.
     """
     scheduler = BackgroundScheduler()
+
+    scheduler.add_job(
+        delete_old_rss_history,
+        "interval",
+        days=1,
+        next_run_time=datetime.now() + timedelta(seconds=60),
+        id="delete_rss_history_job",  # 고유 ID 설정
+    )
+
     interval_seconds = RSS_CHECK_INTERVAL
 
     # 주기적으로 check_rss_feeds 실행

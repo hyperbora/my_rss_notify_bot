@@ -13,3 +13,4 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASE_TEST_URL = "sqlite:///:memory:"
 MAX_RSS_FEEDS = int(os.getenv("MAX_RSS_FEEDS", "5"))
 RSS_CHECK_INTERVAL = int(os.getenv("RSS_CHECK_INTERVAL", "600"))
+OLD_RSS_HISTORY_DAYS = int(os.getenv("OLD_RSS_HISTORY_DAYS", "30"))

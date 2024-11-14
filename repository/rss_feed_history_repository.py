@@ -53,7 +53,7 @@ def delete_old_rss_history(days: int = 30):
     """
     cutoff_date = datetime.now() - timedelta(days=days)
     with get_db() as db:
-        db.execute(
-            db.delete(RSSFeedHistory).where(RSSFeedHistory.published_at < cutoff_date)
-        )
+        db.query(RSSFeedHistory).filter(
+            RSSFeedHistory.published_at < cutoff_date
+        ).delete(synchronize_session=False)
         db.commit()

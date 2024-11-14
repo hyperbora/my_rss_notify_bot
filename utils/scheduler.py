@@ -83,9 +83,9 @@ def create_rss_update_message(new_entries_summary, language):
     message = f"{get_translation(MessageEnum.NEW_RSS_UPDATES, language)}\n\n"
 
     for url, entries in new_entries_summary.items():
-        message += f"{get_translation(MessageEnum.SOURCE, language)}: {url}\n"
+        message += f"{get_translation(MessageEnum.SOURCE, language)}: {url}\n\n"
         for entry in entries[:2]:  # 최신 2개 항목만 표시
-            message += f"- {entry.title} - [Link]({entry.link})\n"
+            message += f"- {entry.title} - [Link]({entry.link})\n\n"
         if len(entries) > 2:
             more_updates = get_translation(
                 MessageEnum.MORE_UPDATES, language, SIZE=len(entries) - 2

@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from collections import OrderedDict
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 import feedparser
@@ -31,7 +32,7 @@ def delete_old_rss_history():
     rss_feed_history_repository.delete_old_rss_history(days=OLD_RSS_HISTORY_DAYS)
 
 
-def check_rss_feeds():
+async def check_rss_feeds():
     # 모든 사용자에 대해
     for user in user_repository.get_all_users():
         # 사용자가 등록한 RSS 피드 가져오기
@@ -72,7 +73,7 @@ def check_rss_feeds():
         if new_entries_summary:
             message = create_rss_update_message(new_entries_summary, user.language)
             # 요약 메시지를 사용자에게 전송
-            send_notification_to_user(user.chat_id, message)
+            await send_notification_to_user(user.chat_id, message)
 
 
 def create_rss_update_message(new_entries_summary, language):
@@ -95,7 +96,7 @@ def create_rss_update_message(new_entries_summary, language):
     return message
 
 
-def send_notification_to_user(chat_id: str, message: str):
+async def send_notification_to_user(chat_id: str, message: str):
     """
     텔레그램 사용자에게 메시지를 보내는 함수.
     chat_id: 사용자의 고유 텔레그램 ID
@@ -104,7 +105,7 @@ def send_notification_to_user(chat_id: str, message: str):
     bot = Bot(token=BOT_TOKEN)
     try:
         # 메시지 전송
-        bot.send_message(chat_id=chat_id, text=message)
+        await bot.send_message(chat_id=chat_id, text=message)
     except TelegramError as e:
         print(f"메시지 전송 중 오류 발생: {e}")
 
@@ -113,9 +114,8 @@ def start_rss_scheduler():
     """
     스케줄러를 시작하여 주기적으로 오래된 history 삭제 및 신규 rss를 확인합니다.
     """
-    scheduler = BackgroundScheduler()
-
-    scheduler.add_job(
+    scheduler_cleanup = BackgroundScheduler()
+    scheduler_cleanup.add_job(
         delete_old_rss_history,
         "interval",
         days=1,
@@ -125,12 +125,14 @@ def start_rss_scheduler():
 
     interval_seconds = RSS_CHECK_INTERVAL
 
+    scheduler_notifications = AsyncIOScheduler()
     # 주기적으로 check_rss_feeds 실행
-    scheduler.add_job(
+    scheduler_notifications.add_job(
         check_rss_feeds,
         IntervalTrigger(seconds=interval_seconds),  # 환경변수에 따라 주기 설정
         next_run_time=datetime.now() + timedelta(seconds=interval_seconds),
         id="rss_check_job",  # 고유 ID 설정
     )
 
-    scheduler.start()
+    scheduler_cleanup.start()
+    scheduler_notifications.start()

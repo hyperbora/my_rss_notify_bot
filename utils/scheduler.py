@@ -1,10 +1,13 @@
 from datetime import datetime, timedelta
+from collections import OrderedDict
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 import feedparser
 from repository.models import RSSFeedHistory
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
 from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS
+from languages import get_translation
+from enums import MessageEnum
 
 
 def parse_published_at(date_str):
@@ -22,10 +25,11 @@ def delete_old_rss_history():
 
 def check_rss_feeds():
     # 모든 사용자에 대해
-
     for user in user_repository.get_all_users():
         # 사용자가 등록한 RSS 피드 가져오기
         rss_feeds = rss_feed_repository.get_rss_feeds_by_user_id(user_id=user.id)
+
+        new_entries_summary = OrderedDict()
 
         for rss_feed in rss_feeds:
             # RSS 피드 파싱
@@ -51,12 +55,38 @@ def check_rss_feeds():
                     )
                     rss_feed_history_repository.save_entry(rss_feed_history=new_history)
 
-                    # 여기서 알림을 보낼 수도 있음
-                    send_notification_to_user(user.chat_id, f"새 RSS 글: {entry.title}")
+                    # 새로운 항목을 요약 정보에 추가
+                    if rss_feed.url not in new_entries_summary:
+                        new_entries_summary[rss_feed.url] = []
+                    new_entries_summary[rss_feed.url].append(entry)
+
+        # 사용자에게 보낼 요약 메시지 생성
+        if new_entries_summary:
+            message = create_rss_update_message(new_entries_summary, user.language)
+            # 요약 메시지를 사용자에게 전송
+            send_notification_to_user(user.chat_id, message)
+
+
+def create_rss_update_message(new_entries_summary, language):
+    """
+    새로운 RSS 항목들을 요약해서 메시지로 변환하는 함수
+    """
+    message = f"{get_translation(MessageEnum.NEW_RSS_UPDATES, language)}\n\n"
+
+    for url, entries in new_entries_summary.items():
+        message += f"{get_translation(MessageEnum.SOURCE, language)}: {url}\n"
+        for entry in entries[:2]:  # 최신 2개 항목만 표시
+            message += f"- {entry.title} - [Link]({entry.link})\n"
+        if len(entries) > 2:
+            message += f"{get_translation(
+                MessageEnum.MORE_UPDATES, language, SIZE=len(entries) - 2)}\n\n"
+
+    message += get_translation(MessageEnum.CLICK_TO_VIEW, language)
+    return message
 
 
 def send_notification_to_user(chat_id: str, message: str):
-    # 여기에 Telegram bot 메시지 전송 기능을 구현
+    # Telegram bot 메시지 전송
     print(f"send notification to {chat_id} : {message}")
 
 

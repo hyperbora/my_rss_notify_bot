@@ -21,7 +21,11 @@
     "cancel_rss_add": "RSS feed addition has been canceled.",
     "rss_already_exists": "The RSS feed is already registered.",
     "rss_max_limit": "You can only register up to {MAX_RSS_FEEDS} RSS feeds.",
-    "invalid_rss_url": "Invalid RSS URL. Please enter a valid URL."
+    "invalid_rss_url": "Invalid RSS URL. Please enter a valid URL.",
+    "new_rss_updates": "There are new RSS updates.",
+    "source": "Source",
+    "more_updates": "There are {SIZE} more updates.",
+    "click_to_view": "Click the individual links to view all updates."
   },
   "ko": {
     "welcome_message": "RSS 봇에 오신 것을 환영합니다!",
@@ -45,6 +49,10 @@
     "cancel_rss_add": "RSS 피드 추가가 취소되었습니다.",
     "rss_already_exists": "이미 등록된 RSS 피드입니다.",
     "rss_max_limit": "최대 {MAX_RSS_FEEDS}개의 RSS 피드만 등록할 수 있습니다.",
-    "invalid_rss_url": "유효하지 않은 RSS URL입니다. 올바른 URL을 입력해 주세요."
+    "invalid_rss_url": "유효하지 않은 RSS URL입니다. 올바른 URL을 입력해 주세요.",
+    "new_rss_updates": "새로운 RSS 업데이트가 있습니다.",
+    "source": "출처",
+    "more_updates": "외 {SIZE}개의 업데이트가 있습니다.",
+    "click_to_view": "전체 업데이트를 확인하려면 개별 링크를 클릭하세요."
   }
 }

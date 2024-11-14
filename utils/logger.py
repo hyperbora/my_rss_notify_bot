@@ -22,7 +22,7 @@ class StreamToLogger(object):
         pass
 
 
-level = logging.getLevelNamesMapping().get(LOG_LEVEL, logging.INFO)
+level = getattr(logging, LOG_LEVEL)
 
 # 로거 초기화
 logger = logging.getLogger(__file__)

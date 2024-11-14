@@ -3,22 +3,28 @@ from collections import OrderedDict
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 import feedparser
+from telegram import Bot
+from telegram.error import TelegramError
 from repository.models import RSSFeedHistory
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
 from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS, BOT_TOKEN
 from languages import get_translation
 from enums import MessageEnum
-from telegram import Bot
-from telegram.error import TelegramError
 
 
 def parse_published_at(date_str):
-    for date_format in ["%a, %d %b %Y %H:%M:%S %z", "%Y-%m-%dT%H:%M:%S%z"]:
+    for date_format in [
+        "%a, %d %b %Y %H:%M:%S %z",
+        "%Y-%m-%dT%H:%M:%S%z",
+        "%Y-%m-%d",
+        "%Y%m%d",
+    ]:
         try:
             return datetime.strptime(date_str, date_format)
         except ValueError:
             continue
-    raise ValueError("Unsupported date format")
+    print(f"unknown pattern : {date_str}")
+    return datetime.now()
 
 
 def delete_old_rss_history():

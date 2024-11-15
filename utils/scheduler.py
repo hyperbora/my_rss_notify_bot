@@ -137,7 +137,7 @@ def start_rss_scheduler():
     scheduler_notifications.add_job(
         check_rss_feeds,
         IntervalTrigger(seconds=interval_seconds),  # 환경변수에 따라 주기 설정
-        next_run_time=datetime.now() + timedelta(seconds=interval_seconds),
+        next_run_time=datetime.now() + timedelta(seconds=120),
         id="rss_check_job",  # 고유 ID 설정
     )
 

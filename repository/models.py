@@ -41,8 +41,8 @@ class RSSFeedHistory(Base):
     entry_id = Column(String, nullable=False)  # RSS 항목의 고유 ID 저장
     title = Column(String, nullable=False)
     link = Column(String, nullable=False)
-    published_at = Column(DateTime, nullable=False)  # 날짜 형식으로 변경
-    created_at = Column(DateTime, server_default=func.now())
+    published_at = Column(DateTime(timezone=True), nullable=False)  # 날짜 형식으로 변경
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     rss_feed = relationship("RSSFeed", back_populates="rss_feed_histories")
 

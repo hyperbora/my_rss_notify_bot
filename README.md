@@ -20,7 +20,7 @@ RSS 새글 알림 봇
 
 ```sh
 sudo cp my-rss-notify-bot.service /usr/lib//usr/lib/systemd/system/
-cd /usr/lib//usr/lib/systemd/system/
+cd /usr/lib/systemd/system/
 sudo chown root:root my-rss-notify-bot.service
 sudo chmod 644 my-rss-notify-bot.service
 sudo vi my-rss-notify-bot.service

@@ -4,12 +4,14 @@ from .help_command import help_command_handler
 from .settings_command import settings_command_handler
 from .menu_command import menu_commands
 from .add_rss_command import add_rss_handler
+from .show_rss_command import show_rss_command_handler
 
 __all__ = [
     "start_command_handler",
     "help_command_handler",
     "settings_command_handler",
     "add_rss_handler",
+    "show_rss_command_handler",
 ]
 
 
@@ -19,6 +21,7 @@ def get_command_handlers():
         help_command_handler,
         settings_command_handler,
         add_rss_handler,
+        show_rss_command_handler,
     ]
 
 

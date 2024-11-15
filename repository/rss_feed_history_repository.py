@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta
+from sqlalchemy import desc
 from repository import get_db
 from repository.models import RSSFeedHistory
+from utils import logger
 
 
 def get_entry_by_feed_and_entry_id(rss_feed_id: int, entry_id: str) -> RSSFeedHistory:
@@ -57,3 +59,29 @@ def delete_old_rss_history(days: int = 30):
             RSSFeedHistory.published_at < cutoff_date
         ).delete(synchronize_session=False)
         db.commit()
+
+
+def get_latest_entry_date(rss_feed_id):
+    """
+    주어진 RSS 피드의 가장 최신 항목의 날짜를 반환합니다.
+
+    :param rss_feed_id: RSS 피드 ID
+    :return: 가장 최근 업데이트 날짜 (datetime) 또는 None
+    """
+    try:
+        with get_db() as db:
+            latest_entry = (
+                db.query(RSSFeedHistory.published_at)
+                .filter(RSSFeedHistory.rss_feed_id == rss_feed_id)
+                .order_by(desc(RSSFeedHistory.published_at))
+                .first()
+            )
+
+            return latest_entry[0] if latest_entry else None
+    except Exception as e:
+        logger.error(
+            "Failed to retrieve latest entry date for RSS feed ID: %s",
+            rss_feed_id,
+            exc_info=True,
+        )
+        return None

@@ -25,7 +25,13 @@
     "new_rss_updates": "There are new RSS updates.",
     "source": "Source",
     "more_updates": "There are {SIZE} more updates.",
-    "click_to_view": "Click the individual links to view all updates."
+    "click_to_view": "Click the individual links to view all updates.",
+    "no_title": "No Title",
+    "no_rss_feeds_registered": "No RSS feeds registered.",
+    "error_fetching_rss_feeds": "RSS feed list retrieval error occurred",
+    "registered_rss_feed_list": "Registered RSS Feed List",
+    "no_update_information": "No Update Information",
+    "last_updated": "Last Updated"
   },
   "ko": {
     "welcome_message": "RSS 봇에 오신 것을 환영합니다!",
@@ -53,6 +59,12 @@
     "new_rss_updates": "새로운 RSS 업데이트가 있습니다.",
     "source": "출처",
     "more_updates": "외 {SIZE}개의 업데이트가 있습니다.",
-    "click_to_view": "전체 업데이트를 확인하려면 개별 링크를 클릭하세요."
+    "click_to_view": "전체 업데이트를 확인하려면 개별 링크를 클릭하세요.",
+    "no_title": "제목 없음",
+    "no_rss_feeds_registered": "등록된 RSS 피드가 없습니다.",
+    "error_fetching_rss_feeds": "RSS 피드 목록을 불러오는 중 오류 발생",
+    "registered_rss_feed_list": "등록된 RSS 피드 목록",
+    "no_update_information": "업데이트 정보 없음",
+    "last_updated": "마지막 업데이트"
   }
 }

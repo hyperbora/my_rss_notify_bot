@@ -3,6 +3,8 @@ from xml.etree import ElementTree as ET
 from urllib.request import urlopen
 import feedparser
 from utils import logger
+from languages import get_translation
+from enums import MessageEnum
 
 
 def _fetch_url(url, timeout=5):
@@ -51,7 +53,15 @@ def get_new_rss_posts(url: str):
         return []
 
 
+def get_rss_feed_info(rss_url):
+    feed = feedparser.parse(rss_url)
+    title = feed.feed.get("title", get_translation(MessageEnum.NO_TITLE))
+    link = feed.feed.get("link", rss_url)
+    return title, link
+
+
 if __name__ == "__main__":
-    url = "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
-    print(is_valid_rss(url))
-    print(get_new_rss_posts(url))
+    test_url = "https://rss.nytimes.com/services/xml/rss/nyt/World.xml"
+    print(is_valid_rss(test_url))
+    print(get_new_rss_posts(test_url))
+    print(get_rss_feed_info(test_url))

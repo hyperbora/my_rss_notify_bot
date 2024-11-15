@@ -59,8 +59,7 @@ def get_rss_feed_info(rss_url):
 
     feed = feedparser.parse(rss_url)
     title = feed.feed.get("title", get_translation(MessageEnum.NO_TITLE))
-    link = feed.feed.get("link", rss_url)
-    return title, link
+    return title, rss_url
 
 
 if __name__ == "__main__":

@@ -2,12 +2,10 @@ from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from urllib.request import urlopen
 import feedparser
-from languages import languages
 from enums import MessageEnum
 from utils import log_util
 
 logger = log_util.logger
-get_translation = languages.get_translation
 
 
 def _fetch_url(url, timeout=5):
@@ -57,6 +55,8 @@ def get_new_rss_posts(url: str):
 
 
 def get_rss_feed_info(rss_url):
+    from languages import get_translation
+
     feed = feedparser.parse(rss_url)
     title = feed.feed.get("title", get_translation(MessageEnum.NO_TITLE))
     link = feed.feed.get("link", rss_url)

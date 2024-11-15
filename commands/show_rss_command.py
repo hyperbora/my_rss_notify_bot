@@ -4,11 +4,10 @@ from telegram.ext import CommandHandler, CallbackContext
 from repository import rss_feed_repository, rss_feed_history_repository, User, RSSFeed
 from enums import CommandEnum, MessageEnum
 from decorators import ensure_user_exists
-from languages import languages
+from languages import get_translation
 from utils import log_util, get_rss_feed_info
 
 logger = log_util.logger
-get_translation = languages.get_translation
 
 
 def format_rss_list(rss_feeds: List[RSSFeed], user: User):

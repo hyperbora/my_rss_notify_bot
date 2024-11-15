@@ -9,13 +9,11 @@ from telegram.error import TelegramError
 from repository.models import RSSFeedHistory
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
 from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS, BOT_TOKEN
-from languages import languages
 from utils import log_util
 from enums import MessageEnum
 
 
 logger = log_util.logger
-get_translation = languages.get_translation
 
 
 def parse_published_at(date_str):
@@ -85,6 +83,8 @@ def create_rss_update_message(new_entries_summary, language):
     """
     새로운 RSS 항목들을 요약해서 메시지로 변환하는 함수
     """
+    from languages import get_translation
+
     message = f"{get_translation(MessageEnum.NEW_RSS_UPDATES, language)}\n\n"
 
     for url, entries in new_entries_summary.items():

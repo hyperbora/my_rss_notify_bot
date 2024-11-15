@@ -9,12 +9,11 @@ from telegram.ext import (
 from repository import rss_feed_repository, RSSFeed, User
 from enums import UserStateEnum, CommandEnum, MessageEnum
 from decorators import ensure_user_exists
-from languages import languages
+from languages import get_translation
 from constants import MAX_RSS_FEEDS
 from utils import is_valid_rss
 
 WAITING_FOR_URL = UserStateEnum.WAITING_FOR_URL
-get_translation = languages.get_translation
 
 
 @ensure_user_exists

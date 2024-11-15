@@ -1,9 +1,7 @@
 from telegram import Update
 from telegram.ext import CommandHandler, CallbackContext
 from enums import CommandEnum, MessageEnum
-from languages import languages
-
-get_translation = languages.get_translation
+from languages import get_translation
 
 
 async def help_command(update: Update, context: CallbackContext):

@@ -32,10 +32,12 @@ def parse_published_at(date_str):
 
 
 def delete_old_rss_history():
+    logger.info("delete_old_rss_history start")
     rss_feed_history_repository.delete_old_rss_history(days=OLD_RSS_HISTORY_DAYS)
 
 
 async def check_rss_feeds():
+    logger.info("check_rss_feeds scheduler start.")
     # 모든 사용자에 대해
     for user in user_repository.get_all_users():
         # 사용자가 등록한 RSS 피드 가져오기

@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from enums import MessageEnum
 
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 JSON_FILE_NAME = "languages.json"

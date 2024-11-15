@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from sqlalchemy import desc
 from repository import get_db
 from repository.models import RSSFeedHistory
 from utils import logger
@@ -71,13 +70,12 @@ def get_latest_entry_date(rss_feed_id):
     try:
         with get_db() as db:
             latest_entry = (
-                db.query(RSSFeedHistory.published_at)
-                .filter(RSSFeedHistory.rss_feed_id == rss_feed_id)
-                .order_by(desc(RSSFeedHistory.published_at))
+                db.query(RSSFeedHistory)
+                .filter_by(rss_feed_id=rss_feed_id)
+                .order_by(RSSFeedHistory.created_at.desc())
                 .first()
             )
-
-            return latest_entry[0] if latest_entry else None
+            return latest_entry.created_at if latest_entry else None
     except Exception as e:
         logger.error(
             "Failed to retrieve latest entry date for RSS feed ID: %s",

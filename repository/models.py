@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from .db import Base
 from constants import DEFAULT_LANGUAGE
 
@@ -41,6 +42,7 @@ class RSSFeedHistory(Base):
     title = Column(String, nullable=False)
     link = Column(String, nullable=False)
     published_at = Column(DateTime, nullable=False)  # 날짜 형식으로 변경
+    created_at = Column(DateTime, server_default=func.now())
 
     rss_feed = relationship("RSSFeed", back_populates="rss_feed_histories")
 

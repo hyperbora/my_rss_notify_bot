@@ -5,8 +5,9 @@ import nest_asyncio
 from constants import BOT_TOKEN
 from commands import get_command_handlers, set_bot_commands
 from repository import init_db
-from utils import start_rss_scheduler
-from utils import logger
+from utils import start_rss_scheduler, log_util
+
+logger = log_util.logger
 
 
 async def main():

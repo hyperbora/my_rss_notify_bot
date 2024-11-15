@@ -2,6 +2,9 @@ import json
 import os
 from constants import DEFAULT_LANGUAGE, JSON_FILE_NAME
 from enums import MessageEnum
+from utils import log_util
+
+logger = log_util.logger
 
 
 def load_translations():
@@ -13,8 +16,6 @@ def load_translations():
         with open(os.path.join(cur_dir, JSON_FILE_NAME), "r", encoding="utf-8") as file:
             return json.load(file)
     except (FileNotFoundError, json.JSONDecodeError) as e:
-        from utils import logger
-
         logger.error("Error loading translations", exc_info=True)
         return {}
 

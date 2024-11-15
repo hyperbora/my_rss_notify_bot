@@ -2,9 +2,12 @@ from urllib.parse import urlparse
 from xml.etree import ElementTree as ET
 from urllib.request import urlopen
 import feedparser
-from utils import logger
-from languages import get_translation
+from languages import languages
 from enums import MessageEnum
+from utils import log_util
+
+logger = log_util.logger
+get_translation = languages.get_translation
 
 
 def _fetch_url(url, timeout=5):

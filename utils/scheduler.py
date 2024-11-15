@@ -9,9 +9,13 @@ from telegram.error import TelegramError
 from repository.models import RSSFeedHistory
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
 from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS, BOT_TOKEN
-from languages import get_translation
-from utils import logger
+from languages import languages
+from utils import log_util
 from enums import MessageEnum
+
+
+logger = log_util.logger
+get_translation = languages.get_translation
 
 
 def parse_published_at(date_str):

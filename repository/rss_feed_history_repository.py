@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta
 from repository import get_db
 from repository.models import RSSFeedHistory
-from utils import logger
+from utils import log_util
+
+logger = log_util.logger
 
 
 def get_entry_by_feed_and_entry_id(rss_feed_id: int, entry_id: str) -> RSSFeedHistory:

@@ -5,7 +5,7 @@ from repository import rss_feed_repository, rss_feed_history_repository, User, R
 from enums import CommandEnum, MessageEnum
 from decorators import ensure_user_exists
 from languages import get_translation
-from utils import log_util, get_rss_feed_info
+from utils import log_util, get_rss_feed_info, format_date_for_user
 
 logger = log_util.logger
 
@@ -16,7 +16,7 @@ def format_rss_list(rss_feeds: List[RSSFeed], user: User):
     for i, feed in enumerate(rss_feeds, start=1):
         last_update = rss_feed_history_repository.get_latest_entry_date(feed.id)
         last_update_str = (
-            last_update.strftime("%Y-%m-%d %H:%M:%S")
+            format_date_for_user(last_update, user.language)
             if last_update
             else get_translation(
                 MessageEnum.NO_UPDATE_INFORMATION, language=user.language

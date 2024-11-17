@@ -110,7 +110,7 @@ sudo systemctl status my-rss-notify-bot.service
   - ~~start~~
   - ~~add_rss~~
   - ~~show_rss~~
-  - delete_rss
+  - ~~delete_rss~~
   - stop
   - settings
   - recent_rss

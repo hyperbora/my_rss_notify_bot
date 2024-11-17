@@ -41,20 +41,24 @@ sudo systemctl status my-rss-notify-bot.service
 ├── commands/                                   # 커맨드 폴더
 │   ├── __init__.py
 │   ├── add_rss_command.py                      # RSS 피드 추가 커맨드
+│   ├── delete_rss_command.py                   # RSS 피드 삭제 커맨드
+│   ├── delete_user_command.py                  # 사용자 삭제 커맨드
 │   ├── help_command.py                         # help 커맨드
 │   ├── menu_command.py                         # 봇 메뉴 등록 커맨드
 │   ├── settings_command.py                     # 설정 커맨드
 │   ├── show_rss_command.py                     # 등록된 RSS 피드 보여주는 커맨드
 │   └── start_command.py                        # 시작 커맨드
 │
-├── decorators/                                 # 디코레이터 폴더
+├── decorators/                                 # decorator 폴더
 │   ├── __init__.py
-│   └── user_decorators.py                      # 사용자 DB 정보 관련 디코레이터
+│   └── user_decorators.py                      # 사용자 DB 정보 관련 decorator
 │
 ├── enums/                                      # enum 정의 폴더
 │   ├── __init__.py
 │   ├── command_enum.py                         # 봇 커맨드 정의 enum
 │   ├── message_enum.py                         # 번역 데이터 키 값 enum
+│   ├── rss_feed_delete_action_enum.py          # feed 삭제 액션 enum
+│   ├── user_delete_confirmation_enum.py        # 사용자 삭제 액션 enum
 │   └── user_state_enum.py                      # 커맨드에서 사용자 상태 정의하는 enum
 │
 ├── languages/                                  # 번역 관련 폴더
@@ -102,6 +106,7 @@ sudo systemctl status my-rss-notify-bot.service
 | pytest-env          | pytest에서 env를 사용하기 위한 패키지 |
 | apscheduler         | 스케줄링 패키지                       |
 | feedparser          | RSS Feed parser                       |
+| requests            | HTTP request API                      |
 
 ## TODO
 
@@ -111,14 +116,16 @@ sudo systemctl status my-rss-notify-bot.service
   - ~~add_rss~~
   - ~~show_rss~~
   - ~~delete_rss~~
-  - stop
+  - ~~delete_user~~
   - settings
   - recent_rss
 
 - DB 정의
+
   - ~~SQLAlchemy DB 스키마~~
   - ~~DB 유틸리티 py 파일~~
-    - ~~User, RSS, RSS History~~
+  - ~~User, RSS, RSS History~~
+
 - RSS
 
   - ~~새 글 검색 스케줄링~~

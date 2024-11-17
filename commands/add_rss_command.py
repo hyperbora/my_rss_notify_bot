@@ -55,7 +55,11 @@ async def add_rss_url(update: Update, context: CallbackContext, user: User):
 
     if saved_feed:
         await update.message.reply_text(
-            f"{get_translation(MessageEnum.SUCCESS_RSS_ADDED)}: {rss_url}"
+            (
+                f"{get_translation(MessageEnum.SUCCESS_RSS_ADDED)}\n"
+                f"- Title : {title}\n"
+                f"- Url  : {rss_url}"
+            )
         )
     else:
         await update.message.reply_text(

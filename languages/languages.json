@@ -45,7 +45,8 @@
     "confirm_delete_user": "Are you sure you want to delete your account?",
     "invalid_user_action": "You do not have permission to perform this action.",
     "user_deleted": "Your account has been successfully deleted.",
-    "cancel_delete_user": "Account deletion has been canceled."
+    "cancel_delete_user": "Account deletion has been canceled.",
+    "preparing": "Preparing..."
   },
   "ko": {
     "welcome_message": "RSS 봇에 오신 것을 환영합니다!",
@@ -93,6 +94,7 @@
     "confirm_delete_user": "정말로 계정을 삭제하시겠습니까?",
     "invalid_user_action": "이 작업을 수행할 권한이 없습니다.",
     "user_deleted": "계정이 성공적으로 삭제되었습니다.",
-    "cancel_delete_user": "계정 삭제가 취소되었습니다."
+    "cancel_delete_user": "계정 삭제가 취소되었습니다.",
+    "preparing": "준비 중 입니다."
   }
 }

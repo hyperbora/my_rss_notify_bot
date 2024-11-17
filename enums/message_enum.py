@@ -50,3 +50,4 @@ class MessageEnum(str, Enum):
     INVALID_USER_ACTION = "invalid_user_action"
     USER_DELETED = "user_deleted"
     CANCEL_DELETE_USER = "cancel_delete_user"
+    PREPARING = "preparing"

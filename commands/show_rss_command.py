@@ -23,7 +23,7 @@ def format_rss_list(rss_feeds: List[RSSFeed], user: User):
             )
         )
 
-        title, url = get_rss_feed_info(feed.url)
+        title, url = get_rss_feed_info(feed.url, user.language)
 
         last_update_label = get_translation(
             MessageEnum.LAST_UPDATED, language=user.language

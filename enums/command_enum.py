@@ -8,3 +8,4 @@ class CommandEnum(str, Enum):
     ADD_RSS = "add_rss"
     CANCEL_RSS_ADD = "cancel_rss_add"
     SHOW_RSS = "show_rss"
+    DELETE_RSS = "delete_rss"

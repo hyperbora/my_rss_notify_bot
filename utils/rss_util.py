@@ -4,6 +4,7 @@ from urllib.request import urlopen
 import feedparser
 from enums import MessageEnum
 from utils import log_util
+from constants import DEFAULT_LANGUAGE
 
 logger = log_util.logger
 
@@ -54,11 +55,11 @@ def get_new_rss_posts(url: str):
         return []
 
 
-def get_rss_feed_info(rss_url):
+def get_rss_feed_info(rss_url, language=DEFAULT_LANGUAGE):
     from languages import get_translation
 
     feed = feedparser.parse(rss_url)
-    title = feed.feed.get("title", get_translation(MessageEnum.NO_TITLE))
+    title = feed.feed.get("title", get_translation(MessageEnum.NO_TITLE, language))
     return title, rss_url
 
 

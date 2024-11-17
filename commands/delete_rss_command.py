@@ -1,16 +1,16 @@
+from typing import List
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext, CommandHandler, CallbackQueryHandler
 from enums import DeleteActionEnum, CommandEnum, MessageEnum
 from languages import get_translation
-from repository import rss_feed_repository, User
-from utils import get_rss_feed_info
+from repository import rss_feed_repository, User, RSSFeed
 from decorators import ensure_user_exists
 
 
 # 사용자가 선택한 RSS를 삭제하는 함수
 @ensure_user_exists
 async def delete_rss_command(update: Update, context: CallbackContext, user: User):
-    rss_feeds = rss_feed_repository.get_rss_feeds_by_user_id(user.id)
+    rss_feeds: List[RSSFeed] = rss_feed_repository.get_rss_feeds_by_user_id(user.id)
 
     if not rss_feeds:
         await update.message.reply_text(
@@ -21,7 +21,7 @@ async def delete_rss_command(update: Update, context: CallbackContext, user: Use
     buttons = [
         [
             InlineKeyboardButton(
-                text=f"{get_rss_feed_info(rss_feed.url, user.language)} - {rss_feed.url}",
+                text=f"{rss_feed.title} - {rss_feed.url}",
                 callback_data=f"{CommandEnum.DELETE_RSS.value}:{rss_feed.id}",
             )
         ]

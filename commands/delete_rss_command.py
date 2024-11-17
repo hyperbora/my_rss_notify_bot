@@ -1,7 +1,7 @@
 from typing import List
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import CallbackContext, CommandHandler, CallbackQueryHandler
-from enums import DeleteActionEnum, CommandEnum, MessageEnum
+from enums import RssFeedDeleteActionEnum, CommandEnum, MessageEnum
 from languages import get_translation
 from repository import rss_feed_repository, User, RSSFeed
 from decorators import ensure_user_exists
@@ -49,11 +49,11 @@ async def confirm_delete_rss(update: Update, context: CallbackContext, user: Use
             [
                 InlineKeyboardButton(
                     get_translation(MessageEnum.CONFIRM_YES, user.language),
-                    callback_data=f"{DeleteActionEnum.CONFIRM_DELETE.value}:{feed_id}",
+                    callback_data=f"{RssFeedDeleteActionEnum.CONFIRM.value}:{feed_id}",
                 ),
                 InlineKeyboardButton(
                     get_translation(MessageEnum.CONFIRM_NO, user.language),
-                    callback_data=DeleteActionEnum.CANCEL_DELETE.value,
+                    callback_data=RssFeedDeleteActionEnum.CANCEL.value,
                 ),
             ]
         ]
@@ -72,7 +72,7 @@ async def handle_confirmation(update: Update, context: CallbackContext, user: Us
     query = update.callback_query
     data = query.data
 
-    if data.startswith(DeleteActionEnum.CONFIRM_DELETE.value):
+    if data.startswith(RssFeedDeleteActionEnum.CONFIRM.value):
         feed_id = int(data.split(":")[1])
         rss_feed_repository.delete_rss_feed(feed_id)  # 삭제 처리
 
@@ -83,7 +83,7 @@ async def handle_confirmation(update: Update, context: CallbackContext, user: Us
             get_translation(MessageEnum.RSS_DELETED_CONFIRM, user.language)
         )
 
-    elif data == DeleteActionEnum.CANCEL_DELETE.value:
+    elif data == RssFeedDeleteActionEnum.CANCEL.value:
         await query.answer(
             get_translation(MessageEnum.DELETE_OPERATION_CANCELED, user.language)
         )
@@ -100,5 +100,5 @@ confirm_delete_rss_callback_query_handler = CallbackQueryHandler(
 )
 handle_confirm_delete_callback_query_handler = CallbackQueryHandler(
     handle_confirmation,
-    pattern=f"^{DeleteActionEnum.CONFIRM_DELETE.value}|{DeleteActionEnum.CANCEL_DELETE.value}$",
+    pattern=f"^{RssFeedDeleteActionEnum.CONFIRM.value}|{RssFeedDeleteActionEnum.CANCEL.value}$",
 )

@@ -10,6 +10,10 @@ from .delete_rss_command import (
     confirm_delete_rss_callback_query_handler,
     handle_confirm_delete_callback_query_handler,
 )
+from .delete_user_command import (
+    delete_user_command_handler,
+    delete_user_callback_handler,
+)
 
 __all__ = [
     "start_command_handler",
@@ -20,6 +24,8 @@ __all__ = [
     "delete_rss_command_handler",
     "confirm_delete_rss_callback_query_handler",
     "handle_confirm_delete_callback_query_handler",
+    "delete_user_command_handler",
+    "delete_user_callback_handler",
 ]
 
 
@@ -33,6 +39,8 @@ def get_command_handlers():
         delete_rss_command_handler,
         confirm_delete_rss_callback_query_handler,
         handle_confirm_delete_callback_query_handler,
+        delete_user_command_handler,
+        delete_user_callback_handler,
     ]
 
 

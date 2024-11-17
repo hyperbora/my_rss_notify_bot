@@ -45,3 +45,8 @@ class MessageEnum(str, Enum):
     RSS_DELETED_CONFIRM = "rss_deleted_confirm"
     DELETE_CANCELED = "delete_canceled"
     DELETE_OPERATION_CANCELED = "delete_operation_canceled"
+    USER_NOT_FOUND_TO_DELETE = "user_not_found"
+    CONFIRM_DELETE_USER = "confirm_delete_user"
+    INVALID_USER_ACTION = "invalid_user_action"
+    USER_DELETED = "user_deleted"
+    CANCEL_DELETE_USER = "cancel_delete_user"

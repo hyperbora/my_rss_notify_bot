@@ -22,6 +22,7 @@ class RSSFeed(Base):
     __tablename__ = "rss_feeds"
     id = Column(Integer, primary_key=True)
     url = Column(String, nullable=False)
+    title = Column(String, nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User", back_populates="rss_feeds")
 

@@ -1,4 +1,6 @@
 import feedparser
+import requests
+from requests.exceptions import RequestException
 from enums import MessageEnum
 from utils import log_util
 from constants import DEFAULT_LANGUAGE
@@ -17,17 +19,35 @@ def is_valid_rss(url: str) -> bool:
         bool: 유효한 RSS 피드라면 True, 아니면 False
     """
     try:
-        feed = feedparser.parse(url)
-        # feedparser의 bozo 속성이 True이면 파싱 중 오류가 발생했음을 의미합니다.
-        if feed.bozo:
-            return False
+        # URL 요청 및 응답 확인
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()  # HTTP 에러 발생 시 예외 발생
 
-        # 채널의 필수 속성 중 하나라도 없다면 유효하지 않은 RSS로 간주
-        required_fields = ["title", "link", "description"]
-        return all(getattr(feed.feed, field, None) for field in required_fields)
-    except Exception as e:
-        logger.error("Error validating RSS feed: {%s}", url, exc_info=True)
+        # 콘텐츠 강제 파싱
+        feed = feedparser.parse(response.content)
+    except RequestException as e:
+        logger.error("Failed to fetch RSS feed: %s", url, exc_info=True)
         return False
+    except Exception as e:
+        logger.error(
+            "Unexpected error while validating RSS feed: %s", url, exc_info=True
+        )
+        return False
+
+    # feedparser의 bozo 속성이 True이면 파싱 중 오류 발생
+    if feed.bozo:
+        logger.warning(
+            "Feed parsing error for URL: %s, Exception: %s", url, feed.bozo_exception
+        )
+        return False
+
+    # 필수 필드 확인
+    required_fields = ["title", "link"]
+    if not all(feed.feed.get(field) for field in required_fields):
+        logger.warning("Missing required fields in RSS feed: %s", url)
+        return False
+
+    return True
 
 
 def get_new_rss_posts(url: str):

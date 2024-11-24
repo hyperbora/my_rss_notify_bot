@@ -1,6 +1,5 @@
 import feedparser
-import requests
-from requests.exceptions import RequestException
+from feedparser import NonXMLContentType
 from enums import MessageEnum
 from utils import log_util
 from constants import DEFAULT_LANGUAGE
@@ -18,35 +17,18 @@ def is_valid_rss(url: str) -> bool:
     Returns:
         bool: 유효한 RSS 피드라면 True, 아니면 False
     """
-    try:
-        # URL 요청 및 응답 확인
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()  # HTTP 에러 발생 시 예외 발생
-
-        # 콘텐츠 강제 파싱
-        feed = feedparser.parse(response.content)
-    except RequestException as e:
-        logger.error("Failed to fetch RSS feed: %s", url, exc_info=True)
+    feed = feedparser.parse(url)
+    # 'bozo'가 0이면 RSS 파싱에 문제가 없음을 의미
+    if feed.bozo == 1:
+        if isinstance(feed.bozo_exception, NonXMLContentType):
+            logger.warning("Warning: Non-XML media type. Ignoring this error.")
+        else:
+            logger.error("Error parsing RSS feed: %s", feed.bozo_exception)
+            return False
+    # 'feed' 딕셔너리에 'title'이나 기타 주요 정보가 있어야 유효한 피드
+    if not feed.feed.get("title"):
+        logger.error("Invalid RSS feed: Missing title or feed metadata.")
         return False
-    except Exception as e:
-        logger.error(
-            "Unexpected error while validating RSS feed: %s", url, exc_info=True
-        )
-        return False
-
-    # feedparser의 bozo 속성이 True이면 파싱 중 오류 발생
-    if feed.bozo:
-        logger.warning(
-            "Feed parsing error for URL: %s, Exception: %s", url, feed.bozo_exception
-        )
-        return False
-
-    # 필수 필드 확인
-    required_fields = ["title", "link"]
-    if not all(feed.feed.get(field) for field in required_fields):
-        logger.warning("Missing required fields in RSS feed: %s", url)
-        return False
-
     return True
 
 

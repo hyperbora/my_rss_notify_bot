@@ -52,9 +52,13 @@ async def check_rss_feeds():
             # 피드 항목 확인
             for entry in feed.entries:
                 # 각 RSS 항목에 대해 history를 확인하고, 없으면 추가
+                title = entry.get("title")
+                link = entry.get("link")
+                entry_id = entry.get("id", link)
+                published_at = entry.get("published", "")
                 existing_history = (
                     rss_feed_history_repository.get_entry_by_feed_and_entry_id(
-                        rss_feed_id=rss_feed.id, entry_id=entry.id
+                        rss_feed_id=rss_feed.id, entry_id=entry_id
                     )
                 )
 
@@ -62,10 +66,10 @@ async def check_rss_feeds():
                 if not existing_history:
                     new_history = RSSFeedHistory(
                         rss_feed_id=rss_feed.id,
-                        entry_id=entry.id,
-                        title=entry.title,
-                        link=entry.link,
-                        published_at=parse_published_at(entry.published),
+                        entry_id=entry_id,
+                        title=title,
+                        link=link,
+                        published_at=parse_published_at(published_at),
                     )
                     rss_feed_history_repository.save_entry(rss_feed_history=new_history)
 

@@ -16,15 +16,16 @@ from enums import MessageEnum
 logger = log_util.logger
 
 
-def parse_published_at(date_str):
+def parse_published_at(date_str: str):
     for date_format in [
         "%a, %d %b %Y %H:%M:%S %z",
         "%Y-%m-%dT%H:%M:%S%z",
         "%Y-%m-%d",
         "%Y%m%d",
+        "%Y-%m-%d %H:%M:%S",
     ]:
         try:
-            return datetime.strptime(date_str, date_format)
+            return datetime.strptime(date_str.strip(), date_format)
         except ValueError:
             continue
     logger.debug("unknown pattern : %s", date_str)
@@ -56,7 +57,13 @@ async def check_rss_feeds():
                     title = entry.get("title")
                     link = entry.get("link")
                     entry_id = entry.get("id", link)
-                    published_at = entry.get("published", "")
+                    published_at = (
+                        entry.get("published")
+                        or entry.get("updated")
+                        or entry.get("pubDate")
+                        or entry.get("wDate")
+                        or ""
+                    )
                     existing_history = (
                         rss_feed_history_repository.get_entry_by_feed_and_entry_id(
                             rss_feed_id=rss_feed.id, entry_id=entry_id

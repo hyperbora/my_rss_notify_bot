@@ -6,7 +6,7 @@ from apscheduler.triggers.interval import IntervalTrigger
 import feedparser
 from telegram import Bot
 from telegram.error import TelegramError
-from repository.models import RSSFeedHistory
+from repository.models import RSSFeedHistory, RSSFeed
 from repository import user_repository, rss_feed_repository, rss_feed_history_repository
 from constants import RSS_CHECK_INTERVAL, OLD_RSS_HISTORY_DAYS, BOT_TOKEN
 from utils import log_util
@@ -84,9 +84,9 @@ async def check_rss_feeds():
                         )
 
                         # 새로운 항목을 요약 정보에 추가
-                        if rss_feed.url not in new_entries_summary:
-                            new_entries_summary[rss_feed.url] = []
-                        new_entries_summary[rss_feed.url].append(entry)
+                        if rss_feed not in new_entries_summary:
+                            new_entries_summary[rss_feed] = []
+                        new_entries_summary[rss_feed].append(entry)
                 except Exception:
                     logger.error(
                         "User(%s), URL(%s)", user.id, rss_feed.url, exc_info=True
@@ -99,7 +99,7 @@ async def check_rss_feeds():
             await send_notification_to_user(user.chat_id, message)
 
 
-def create_rss_update_message(new_entries_summary, language):
+def create_rss_update_message(new_entries_summary: dict[RSSFeed, list], language):
     """
     새로운 RSS 항목들을 요약해서 메시지로 변환하는 함수
     """
@@ -107,8 +107,10 @@ def create_rss_update_message(new_entries_summary, language):
 
     message = f"{get_translation(MessageEnum.NEW_RSS_UPDATES, language)}\n\n"
 
-    for url, entries in new_entries_summary.items():
-        message += f"{get_translation(MessageEnum.SOURCE, language)}: {url}\n\n"
+    for rss_feed, entries in new_entries_summary.items():
+        message += (
+            f"{get_translation(MessageEnum.SOURCE, language)}: {rss_feed.title}\n\n"
+        )
         for entry in entries[:2]:  # 최신 2개 항목만 표시
             message += f"- {entry.title} - [Link]({entry.link})\n\n"
         if len(entries) > 2:
